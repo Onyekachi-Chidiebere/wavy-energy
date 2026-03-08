@@ -98,19 +98,136 @@ export default function AdminDashboard() {
       {activeTab === "general" && (
         <form onSubmit={saveContent} className="space-y-6">
           <Section title="Hero Section">
-            <Input label="Title" value={content.hero_title} onChange={(v) => setContent({ ...content, hero_title: v })} />
-            <TextArea label="Description" value={content.hero_description} onChange={(v) => setContent({ ...content, hero_description: v })} />
+            <Input
+              label="Top Tagline"
+              value={content.hero_tag}
+              onChange={(v) => setContent({ ...content, hero_tag: v })}
+            />
+            <Input
+              label="Hero Title"
+              value={content.hero_title}
+              onChange={(v) => setContent({ ...content, hero_title: v })}
+            />
+            <TextArea
+              label="Hero Description"
+              value={content.hero_description}
+              onChange={(v) =>
+                setContent({ ...content, hero_description: v })
+              }
+            />
           </Section>
-          <Section title="Contact Info">
-            <Input label="Email" value={content.contact_email} onChange={(v) => setContent({ ...content, contact_email: v })} />
-            <Input label="Phone" value={content.contact_phone} onChange={(v) => setContent({ ...content, contact_phone: v })} />
+
+          <Section title="Hero Statistics">
+            <Input
+              label="Litres Capacity (e.g. 150K)"
+              value={content.stats_litres}
+              onChange={(v) => setContent({ ...content, stats_litres: v })}
+            />
+            <Input
+              label="States Covered (e.g. 36+)"
+              value={content.stats_states}
+              onChange={(v) => setContent({ ...content, stats_states: v })}
+            />
+            <Input
+              label="Service Lines (e.g. 5)"
+              value={content.stats_lines}
+              onChange={(v) => setContent({ ...content, stats_lines: v })}
+            />
+            <Input
+              label="Documentation % (e.g. 100%)"
+              value={content.stats_doc}
+              onChange={(v) => setContent({ ...content, stats_doc: v })}
+            />
           </Section>
+
           <Section title="About Section">
-            <TextArea label="Intro Paragraph" value={content.about_intro} onChange={(v) => setContent({ ...content, about_intro: v })} />
-            <TextArea label="Vision" value={content.vision_text} onChange={(v) => setContent({ ...content, vision_text: v })} />
-            <TextArea label="Mission" value={content.mission_text} onChange={(v) => setContent({ ...content, mission_text: v })} />
+            <TextArea
+              label="Intro Paragraph"
+              value={content.about_intro}
+              onChange={(v) => setContent({ ...content, about_intro: v })}
+            />
+            <TextArea
+              label="Body Paragraph 1"
+              value={content.about_body_1}
+              onChange={(v) => setContent({ ...content, about_body_1: v })}
+            />
+            <TextArea
+              label="Body Paragraph 2"
+              value={content.about_body_2}
+              onChange={(v) => setContent({ ...content, about_body_2: v })}
+            />
+            <TextArea
+              label="About Callout"
+              value={content.about_callout}
+              onChange={(v) => setContent({ ...content, about_callout: v })}
+            />
           </Section>
-          <button className="bg-green-900 text-white px-6 py-2 rounded font-bold">Save Changes</button>
+
+          <Section title="Vision & Mission">
+            <TextArea
+              label="Vision Statement"
+              value={content.vision_text}
+              onChange={(v) => setContent({ ...content, vision_text: v })}
+            />
+            <TextArea
+              label="Mission Statement"
+              value={content.mission_text}
+              onChange={(v) => setContent({ ...content, mission_text: v })}
+            />
+          </Section>
+
+          <Section title="HSE & Compliance">
+            <TextArea
+              label="HSE Intro Paragraph"
+              value={content.hse_intro}
+              onChange={(v) => setContent({ ...content, hse_intro: v })}
+            />
+            <TextArea
+              label="HSE Body Paragraph"
+              value={content.hse_body}
+              onChange={(v) => setContent({ ...content, hse_body: v })}
+            />
+            <TextArea
+              label="Safety Quote"
+              value={content.hse_quote}
+              onChange={(v) => setContent({ ...content, hse_quote: v })}
+            />
+          </Section>
+
+          <Section title="Why Choose Us">
+            <TextArea
+              label="Intro Paragraph"
+              value={content.why_intro}
+              onChange={(v) => setContent({ ...content, why_intro: v })}
+            />
+          </Section>
+
+          <Section title="Contact & Footer">
+            <Input
+              label="Public Email"
+              value={content.contact_email}
+              onChange={(v) => setContent({ ...content, contact_email: v })}
+            />
+            <Input
+              label="Public Phone"
+              value={content.contact_phone}
+              onChange={(v) => setContent({ ...content, contact_phone: v })}
+            />
+            <Input
+              label="Address Line"
+              value={content.contact_address}
+              onChange={(v) => setContent({ ...content, contact_address: v })}
+            />
+            <TextArea
+              label="Footer Tagline"
+              value={content.footer_tagline}
+              onChange={(v) => setContent({ ...content, footer_tagline: v })}
+            />
+          </Section>
+
+          <button className="bg-green-900 text-white px-6 py-2 rounded font-bold">
+            Save Changes
+          </button>
         </form>
       )}
 
@@ -173,28 +290,46 @@ function Section({ title, children }: { title: string, children: React.ReactNode
   );
 }
 
-function Input({ label, value, onChange, type = "text" }: any) {
+function Input({
+  label,
+  value,
+  onChange,
+  type = "text",
+}: {
+  label: string;
+  value: string | number | undefined;
+  onChange: (value: string) => void;
+  type?: string;
+}) {
   return (
     <div>
       <label className="block text-sm font-bold text-gray-700 mb-1">{label}</label>
-      <input 
-        type={type} 
-        value={value || ""} 
-        onChange={(e) => onChange(e.target.value)} 
-        className="w-full p-2 border rounded focus:ring-2 focus:ring-green-900 outline-none" 
+      <input
+        type={type}
+        value={value ?? ""}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full p-2 border rounded focus:ring-2 focus:ring-green-900 outline-none"
       />
     </div>
   );
 }
 
-function TextArea({ label, value, onChange }: any) {
+function TextArea({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string | undefined;
+  onChange: (value: string) => void;
+}) {
   return (
     <div>
       <label className="block text-sm font-bold text-gray-700 mb-1">{label}</label>
-      <textarea 
-        value={value || ""} 
-        onChange={(e) => onChange(e.target.value)} 
-        className="w-full p-2 border rounded focus:ring-2 focus:ring-green-900 outline-none h-24" 
+      <textarea
+        value={value ?? ""}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full p-2 border rounded focus:ring-2 focus:ring-green-900 outline-none h-24"
       />
     </div>
   );

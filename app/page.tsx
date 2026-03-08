@@ -2,17 +2,31 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-import logo from './images/logo.png';
-import Image from 'next/image';
+import logo from "./images/logo.png";
+import Image from "next/image";
 
 interface SiteContent {
   hero_title: string;
   hero_description: string;
-  contact_email: string;
-  contact_phone: string;
-  about_intro: string;
+  hero_tag?: string;
+  stats_litres?: string;
+  stats_states?: string;
+  stats_lines?: string;
+  stats_doc?: string;
+  about_intro?: string;
+  about_body_1?: string;
+  about_body_2?: string;
+  about_callout?: string;
   vision_text: string;
   mission_text: string;
+  hse_intro?: string;
+  hse_body?: string;
+  hse_quote?: string;
+  why_intro?: string;
+  contact_email: string;
+  contact_phone: string;
+  contact_address?: string;
+  footer_tagline?: string;
 }
 
 export default function Home() {
@@ -22,18 +36,43 @@ export default function Home() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const [teamMembers, setTeamMembers] = useState<any[]>([]);
   const [servicesList, setServicesList] = useState<any[]>([]);
 
   const [content, setContent] = useState<SiteContent>({
     hero_title: "Fueling Growth with Clean Energy Solutions.",
-    hero_description: "Wavy Energy Company Limited is an integrated downstream petroleum and energy engineering company — delivering institutional-grade petroleum supply, gas plant engineering, and solar power solutions nationwide.",
+    hero_description:
+      "Wavy Energy Company Limited is an integrated downstream petroleum and energy engineering company — delivering institutional-grade petroleum supply, gas plant engineering, and solar power solutions nationwide.",
+    hero_tag: "Lagos, Nigeria · Downstream Energy · Clean Power",
+    stats_litres: "150K",
+    stats_states: "36+",
+    stats_lines: "5",
+    stats_doc: "100%",
+    about_intro:
+      "Wavy Energy Limited is an integrated downstream petroleum and energy engineering company, headquartered in Lagos, Nigeria. Prior to formal incorporation, the company's founders and technical partners had been actively engaged in petroleum distribution, fuel logistics coordination, and energy system deployment within the Nigerian market.",
+    about_body_1:
+      "This period of pre-incorporation activity enabled the organisation to build strong industry relationships, operational competence, and market credibility. The leadership team brings longstanding experience in downstream petroleum logistics and energy engineering, with incorporation serving to formalise existing operations under a limited liability structure to strengthen governance, regulatory compliance, risk management, and scalable growth.",
+    about_body_2:
+      "Since incorporation, Wavy Energy has consolidated its operational framework and expanded its service delivery capacity — building upon its prior field experience to deliver structured petroleum supply and energy system installations for commercial and institutional clients across Lagos, the South-West region, and national markets through licensed partners.",
+    about_callout:
+      "The company continues to leverage its pre-registration operational foundation, technical expertise, and established networks to execute projects efficiently, maintain high service standards, and position itself as a reliable participant within Nigeria's evolving energy sector.",
+    vision_text:
+      "To be Nigeria's most technically credible and operationally dependable energy company — a name that institutions, businesses, and households associate unconditionally with reliability, safety, and professional excellence.",
+    mission_text:
+      "To deliver integrated energy solutions — across petroleum product supply, gas plant engineering, and solar power installation — with a standard of technical competence, safety compliance, and client accountability that defines a new benchmark for energy service providers in Nigeria.",
+    hse_intro:
+      "In Nigeria's energy sector, safety and regulatory compliance are not optional — they are the baseline conditions for legitimate, sustainable operation. Wavy Energy treats its HSE obligations as a fundamental component of its operational identity, not a peripheral compliance burden.",
+    hse_body:
+      "All field personnel receive HSE induction before deployment and must comply with the Wavy Energy HSE Code of Conduct throughout every client engagement. Prior to commencing any installation or maintenance engagement, a site-specific risk assessment is conducted and documented.",
+    hse_quote:
+      'No delivery is urgent enough, and no deadline tight enough, to justify a departure from our safety standards. At Wavy Energy, safety is the one area where we never negotiate.',
+    why_intro:
+      "Nigeria's energy services market is dominated by operators whose value propositions focus primarily on price and availability. Wavy Energy differentiates itself through technical competence, disciplined operations, and institutional-grade service standards.",
     contact_email: "info@wavyenergy.com",
     contact_phone: "+234 916 000 8477",
-    about_intro: "Wavy Energy Limited is an integrated downstream petroleum and energy engineering company, headquartered in Lagos, Nigeria. Prior to formal incorporation, the company's founders and technical partners had been actively engaged in petroleum distribution, fuel logistics coordination, and energy system deployment within the Nigerian market.",
-    vision_text: "To be Nigeria's most technically credible and operationally dependable energy company — a name that institutions, businesses, and households associate unconditionally with reliability, safety, and professional excellence.",
-    mission_text: "To deliver integrated energy solutions — across petroleum product supply, gas plant engineering, and solar power installation — with a standard of technical competence, safety compliance, and client accountability that defines a new benchmark for energy service providers in Nigeria.",
+    contact_address: "Ikeja Lagos State, Nigeria",
+    footer_tagline: "Fueling Growth with Clean Energy Solutions.",
   });
 
   const cursorRef = useRef<HTMLDivElement | null>(null);
@@ -302,15 +341,10 @@ export default function Home() {
         <div className="hero-inner">
           <div className="hero-left">
             <div className="hero-tag">
-              Lagos, Nigeria &nbsp;·&nbsp; Downstream Energy &nbsp;·&nbsp; Clean Power
+              {content.hero_tag ||
+                "Lagos, Nigeria · Downstream Energy · Clean Power"}
             </div>
-            <h1>
-              Fueling <em>Growth</em>
-              <br />
-              with Clean
-              <br />
-              Energy Solutions.
-            </h1>
+            <h1>{content.hero_title}</h1>
             <p className="hero-desc">
               {content.hero_description}
             </p>
@@ -326,19 +360,19 @@ export default function Home() {
           <div className="hero-right">
             <div className="hero-stats">
               <div className="hs">
-                <div className="hs-n">150K</div>
+                <div className="hs-n">{content.stats_litres || "150K"}</div>
                 <div className="hs-l">Litres Monthly Capacity</div>
               </div>
               <div className="hs">
-                <div className="hs-n">36+</div>
+                <div className="hs-n">{content.stats_states || "36+"}</div>
                 <div className="hs-l">States Nationwide</div>
               </div>
               <div className="hs">
-                <div className="hs-n">5</div>
+                <div className="hs-n">{content.stats_lines || "5"}</div>
                 <div className="hs-l">Integrated Service Lines</div>
               </div>
               <div className="hs">
-                <div className="hs-n">100%</div>
+                <div className="hs-n">{content.stats_doc || "100%"}</div>
                 <div className="hs-l">Deliveries Documented</div>
               </div>
               <div className="hero-ticker">
@@ -393,36 +427,24 @@ export default function Home() {
                 Company <em>Overview</em>
               </h2>
               <blockquote className="a-quote rv">
-                &quot;Fueling Growth with Clean Energy Solutions.&quot;
+                {content.hero_title || "Fueling Growth with Clean Energy Solutions."}
               </blockquote>
               <p className="a-body rv">
-                Wavy Energy Limited is an integrated downstream petroleum and energy engineering
-                company, headquartered in Lagos, Nigeria. Prior to formal incorporation, the
-                company&apos;s founders and technical partners had been actively engaged in petroleum
-                distribution, fuel logistics coordination, and energy system deployment within the
-                Nigerian market.
+                {content.about_intro ||
+                  "Wavy Energy Limited is an integrated downstream petroleum and energy engineering company, headquartered in Lagos, Nigeria. Prior to formal incorporation, the company's founders and technical partners had been actively engaged in petroleum distribution, fuel logistics coordination, and energy system deployment within the Nigerian market."}
               </p>
               <p className="a-body rv">
-                This period of pre-incorporation activity enabled the organisation to build strong
-                industry relationships, operational competence, and market credibility. The
-                leadership team brings longstanding experience in downstream petroleum logistics
-                and energy engineering, with incorporation serving to formalise existing operations
-                under a limited liability structure to strengthen governance, regulatory
-                compliance, risk management, and scalable growth.
+                {content.about_body_1 ||
+                  "This period of pre-incorporation activity enabled the organisation to build strong industry relationships, operational competence, and market credibility. The leadership team brings longstanding experience in downstream petroleum logistics and energy engineering, with incorporation serving to formalise existing operations under a limited liability structure to strengthen governance, regulatory compliance, risk management, and scalable growth."}
               </p>
               <p className="a-body rv">
-                Since incorporation, Wavy Energy has consolidated its operational framework and
-                expanded its service delivery capacity — building upon its prior field experience
-                to deliver structured petroleum supply and energy system installations for
-                commercial and institutional clients across Lagos, the South-West region, and
-                national markets through licensed partners.
+                {content.about_body_2 ||
+                  "Since incorporation, Wavy Energy has consolidated its operational framework and expanded its service delivery capacity — building upon its prior field experience to deliver structured petroleum supply and energy system installations for commercial and institutional clients across Lagos, the South-West region, and national markets through licensed partners."}
               </p>
               <div className="about-callout rv">
                 <p>
-                  The company continues to leverage its pre-registration operational foundation,
-                  technical expertise, and established networks to execute projects efficiently,
-                  maintain high service standards, and position itself as a reliable participant
-                  within Nigeria&apos;s evolving energy sector.
+                  {content.about_callout ||
+                    "The company continues to leverage its pre-registration operational foundation, technical expertise, and established networks to execute projects efficiently, maintain high service standards, and position itself as a reliable participant within Nigeria's evolving energy sector."}
                 </p>
               </div>
             </div>
@@ -481,18 +503,15 @@ export default function Home() {
             <div className="vm-c">
               <div className="vm-l">Our Vision</div>
               <p>
-                To be Nigeria&apos;s most technically credible and operationally dependable energy
-                company — a name that institutions, businesses, and households associate
-                unconditionally with reliability, safety, and professional excellence.
+                {content.vision_text ||
+                  "To be Nigeria's most technically credible and operationally dependable energy company — a name that institutions, businesses, and households associate unconditionally with reliability, safety, and professional excellence."}
               </p>
             </div>
             <div className="vm-c">
               <div className="vm-l">Our Mission</div>
               <p>
-                To deliver integrated energy solutions — across petroleum product supply, gas plant
-                engineering, and solar power installation — with a standard of technical
-                competence, safety compliance, and client accountability that defines a new
-                benchmark for energy service providers in Nigeria.
+                {content.mission_text ||
+                  "To deliver integrated energy solutions — across petroleum product supply, gas plant engineering, and solar power installation — with a standard of technical competence, safety compliance, and client accountability that defines a new benchmark for energy service providers in Nigeria."}
               </p>
             </div>
           </div>
@@ -594,7 +613,7 @@ export default function Home() {
                 <div className="svc-bd">
                   <p>{svc.body}</p>
                   <div className="tags">
-                    {svc.tags.map((t) => (
+                    {svc.tags.map((t: string) => (
                       <span className="tag" key={t}>
                         {t}
                       </span>
@@ -717,16 +736,12 @@ export default function Home() {
                 <em>Regulatory</em> Compliance
               </h2>
               <p className="hse-body rv">
-                In Nigeria&apos;s energy sector, safety and regulatory compliance are not optional — they are
-                the baseline conditions for legitimate, sustainable operation. Wavy Energy treats its HSE
-                obligations as a fundamental component of its operational identity, not a peripheral
-                compliance burden.
+                {content.hse_intro ||
+                  "In Nigeria's energy sector, safety and regulatory compliance are not optional — they are the baseline conditions for legitimate, sustainable operation. Wavy Energy treats its HSE obligations as a fundamental component of its operational identity, not a peripheral compliance burden."}
               </p>
               <p className="hse-body rv">
-                All field personnel receive HSE induction before deployment and must comply with the Wavy
-                Energy HSE Code of Conduct throughout every client engagement. Prior to commencing any
-                installation or maintenance engagement, a site-specific risk assessment is conducted and
-                documented.
+                {content.hse_body ||
+                  "All field personnel receive HSE induction before deployment and must comply with the Wavy Energy HSE Code of Conduct throughout every client engagement. Prior to commencing any installation or maintenance engagement, a site-specific risk assessment is conducted and documented."}
               </p>
               <ul className="hse-ul rv">
                 <li>Pre-installation site hazard assessment for all gas and solar engineering works</li>
@@ -759,8 +774,10 @@ export default function Home() {
             </div>
             <div className="hse-box rv-s">
               <p className="hse-q">
-                &quot;No delivery is urgent enough, and no deadline tight enough, to justify a departure from our
-                safety standards. At Wavy Energy, safety is the one area where we never negotiate.&quot;
+                &quot;
+                {content.hse_quote ||
+                  "No delivery is urgent enough, and no deadline tight enough, to justify a departure from our safety standards. At Wavy Energy, safety is the one area where we never negotiate."}
+                &quot;
               </p>
               <div className="hse-qa">— Wavy Energy Management</div>
             </div>
@@ -775,9 +792,8 @@ export default function Home() {
             Why Choose <em>Wavy Energy</em>
           </h2>
           <p className="sl rv">
-            Nigeria&apos;s energy services market is dominated by operators whose value propositions focus primarily on
-            price and availability. Wavy Energy differentiates itself through technical competence, disciplined
-            operations, and institutional-grade service standards.
+            {content.why_intro ||
+              "Nigeria's energy services market is dominated by operators whose value propositions focus primarily on price and availability. Wavy Energy differentiates itself through technical competence, disciplined operations, and institutional-grade service standards."}
           </p>
           <div className="why-g">
             <div className="wc rv">
@@ -1059,7 +1075,9 @@ export default function Home() {
                   <div className="ctc-ic">📍</div>
                   <div>
                     <div className="ctc-l">Address</div>
-                    <div className="ctc-v">Ikeja Lagos State, Nigeria</div>
+                    <div className="ctc-v">
+                      {content.contact_address || "Ikeja Lagos State, Nigeria"}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1190,9 +1208,8 @@ export default function Home() {
                 <Image src={logo} alt="Wavy Energy Logo" className="fb-logo-img" width={130} height={97} />
               </div>
               <p className="fb-tl">
-                &quot;Fueling Growth with
-                <br />
-                Clean Energy Solutions.&quot;
+                {content.footer_tagline ||
+                  "Fueling Growth with Clean Energy Solutions."}
               </p>
               <div className="fb-rc">Lagos, Nigeria · 100% Nigerian-Owned</div>
             </div>
@@ -1246,16 +1263,22 @@ export default function Home() {
               <div className="fc-t">Contact</div>
               <ul className="fc-links">
                 <li>
-                  <a href="tel:+2349160008477">+234 916 000 8477</a>
+                  <a href={`tel:${content.contact_phone || "+2349160008477"}`}>
+                    {content.contact_phone || "+234 916 000 8477"}
+                  </a>
                 </li>
                 <li>
-                  <a href="mailto:contact@wavyenergyltd.com">contact@wavyenergyltd.com</a>
+                  <a href={`mailto:${content.contact_email || "info@wavyenergy.com"}`}>
+                    {content.contact_email || "info@wavyenergy.com"}
+                  </a>
                 </li>
                 <li>
                   <a href="#">www.wavyenergyltd.com</a>
                 </li>
                 <li>
-                  <a href="#contact">Ikeja Lagos State, Nigeria</a>
+                  <a href="#contact">
+                    {content.contact_address || "Ikeja Lagos State, Nigeria"}
+                  </a>
                 </li>
               </ul>
             </div>

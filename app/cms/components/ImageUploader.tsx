@@ -46,7 +46,7 @@ export default function ImageUploader({ currentUrl, onUpload, label = "Upload Im
 
   return (
     <div style={{ marginBottom: "20px" }}>
-      <label style={{ display: "block", marginBottom: "8px", fontWeight: "bold" }}>{label}</label>
+      <label style={{ display: "block", marginBottom: "8px", fontWeight: "bold" , color: "#666" }}>{label}</label>
       
       {currentUrl && (
         <div style={{ marginBottom: "10px" }}>

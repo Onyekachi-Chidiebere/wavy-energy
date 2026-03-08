@@ -127,12 +127,12 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-50 to-slate-100 font-sans">
-       <nav>
+       <nav  className="mx-auto  px-4 py-6 sm:px-8 sm:py-10 bg-[#112616] " >
         <Image alt='logo' height={97} width={74} src={logo}/>
       </nav>
       <div className="mx-auto max-w-5xl px-4 py-6 sm:px-8 sm:py-10 mt-10">
     
-        <header className="!mb-6 border-b border-slate-200 pb-4">
+        <header className="mb-6 border-b border-slate-200 pb-4">
       
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
@@ -495,7 +495,7 @@ function Input({
         type={type}
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full p-2 border rounded focus:ring-2 focus:ring-green-900 outline-none"
+        className="w-full p-2 border rounded focus:ring-2 focus:ring-green-900 outline-none text-gray-600"
       />
     </div>
   );
@@ -516,7 +516,7 @@ function TextArea({
       <textarea
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full p-2 border rounded focus:ring-2 focus:ring-green-900 outline-none h-24"
+        className="w-full p-2 border rounded focus:ring-2 focus:ring-green-900 outline-none h-24 text-gray-600"
       />
     </div>
   );

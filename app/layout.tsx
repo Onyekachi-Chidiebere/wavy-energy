@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import "./wavy.css";
+// import "./wavy.css";
 
 export const metadata: Metadata = {
   title: "Wavy Energy Company Limited — Fueling Growth with Clean Energy Solutions",

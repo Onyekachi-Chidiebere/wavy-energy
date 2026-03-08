@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import logo from "./images/logo.png";
 import Image from "next/image";
+import "./wavy.css";
 
 interface SiteContent {
   hero_title: string;

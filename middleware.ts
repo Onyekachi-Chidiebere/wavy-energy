@@ -4,17 +4,17 @@ export function middleware(req: NextRequest) {
   const url = req.nextUrl;
   const hostname = req.headers.get('host') || '';
 
-  // 1. Identify if it's the admin subdomain
+  // 1. Identify if it's the cms subdomain
   // Change "wavy-energy.vercel.app" or "wavy.com" to your actual domain
   const isDevelopment = process.env.NODE_ENV === 'development';
   const adminSubdomain = isDevelopment 
-    ? hostname.startsWith('admin.localhost') 
-    : hostname.startsWith('admin.');
+    ? hostname.startsWith('cms.localhost') 
+    : hostname.startsWith('cms.');
 
   if (adminSubdomain) {
-    // Rewrite internal URL to the /admin folder
-    // For example: admin.localhost:3000/dashboard -> localhost:3000/admin/dashboard
-    const newPath = `/admin${url.pathname}`;
+    // Rewrite internal URL to the /cms folder
+    // For example: cms.localhost:3000/dashboard -> localhost:3000/admin/dashboard
+    const newPath = `/cms${url.pathname}`;
     return NextResponse.rewrite(new URL(newPath, req.url));
   }
 

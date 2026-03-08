@@ -67,15 +67,40 @@ create policy "Admin Delete Images" on storage.objects for delete using ( bucket
 Run this to populate your CMS with the current site data.
 
 ```sql
--- General Text
+-- General Text (matches all editable content on the site)
 insert into site_content (key, value) values 
-('hero_title', 'Fueling Growth with Clean Energy Solutions.'),
-('hero_description', 'Wavy Energy Company Limited is an integrated downstream petroleum and energy engineering company.'),
-('contact_email', 'contact@wavyenergy.com'),
-('contact_phone', '+234 916 000 8477'),
-('about_intro', 'Wavy Energy Limited is an integrated downstream petroleum and energy engineering company, headquartered in Lagos, Nigeria.'),
-('vision_text', 'To be Nigeria''s most technically credible and operationally dependable energy company.'),
-('mission_text', 'To deliver integrated energy solutions — across petroleum product supply, gas plant engineering, and solar power installation.');
+  -- Hero
+  ('hero_title', 'Fueling Growth with Clean Energy Solutions.'),
+  ('hero_description', 'Wavy Energy Company Limited is an integrated downstream petroleum and energy engineering company — delivering institutional-grade petroleum supply, gas plant engineering, and solar power solutions nationwide.'),
+  ('hero_tag', 'Lagos, Nigeria · Downstream Energy · Clean Power'),
+  ('stats_litres', '150K'),
+  ('stats_states', '36+'),
+  ('stats_lines', '5'),
+  ('stats_doc', '100%'),
+
+  -- About
+  ('about_intro', 'Wavy Energy Limited is an integrated downstream petroleum and energy engineering company, headquartered in Lagos, Nigeria. Prior to formal incorporation, the company''s founders and technical partners had been actively engaged in petroleum distribution, fuel logistics coordination, and energy system deployment within the Nigerian market.'),
+  ('about_body_1', 'This period of pre-incorporation activity enabled the organisation to build strong industry relationships, operational competence, and market credibility. The leadership team brings longstanding experience in downstream petroleum logistics and energy engineering, with incorporation serving to formalise existing operations under a limited liability structure to strengthen governance, regulatory compliance, risk management, and scalable growth.'),
+  ('about_body_2', 'Since incorporation, Wavy Energy has consolidated its operational framework and expanded its service delivery capacity — building upon its prior field experience to deliver structured petroleum supply and energy system installations for commercial and institutional clients across Lagos, the South-West region, and national markets through licensed partners.'),
+  ('about_callout', 'The company continues to leverage its pre-registration operational foundation, technical expertise, and established networks to execute projects efficiently, maintain high service standards, and position itself as a reliable participant within Nigeria''s evolving energy sector.'),
+
+  -- Vision & Mission
+  ('vision_text', 'To be Nigeria''s most technically credible and operationally dependable energy company — a name that institutions, businesses, and households associate unconditionally with reliability, safety, and professional excellence.'),
+  ('mission_text', 'To deliver integrated energy solutions — across petroleum product supply, gas plant engineering, and solar power installation — with a standard of technical competence, safety compliance, and client accountability that defines a new benchmark for energy service providers in Nigeria.'),
+
+  -- HSE
+  ('hse_intro', 'In Nigeria''s energy sector, safety and regulatory compliance are not optional — they are the baseline conditions for legitimate, sustainable operation. Wavy Energy treats its HSE obligations as a fundamental component of its operational identity, not a peripheral compliance burden.'),
+  ('hse_body', 'All field personnel receive HSE induction before deployment and must comply with the Wavy Energy HSE Code of Conduct throughout every client engagement. Prior to commencing any installation or maintenance engagement, a site-specific risk assessment is conducted and documented.'),
+  ('hse_quote', 'No delivery is urgent enough, and no deadline tight enough, to justify a departure from our safety standards. At Wavy Energy, safety is the one area where we never negotiate.'),
+
+  -- Why Choose Us
+  ('why_intro', 'Nigeria''s energy services market is dominated by operators whose value propositions focus primarily on price and availability. Wavy Energy differentiates itself through technical competence, disciplined operations, and institutional-grade service standards.'),
+
+  -- Contact & Footer
+  ('contact_email', 'info@wavyenergy.com'),
+  ('contact_phone', '+234 916 000 8477'),
+  ('contact_address', 'Ikeja Lagos State, Nigeria'),
+  ('footer_tagline', 'Fueling Growth with Clean Energy Solutions.');
 
 -- Team Members
 insert into team_members (name, role, bio, image_url, display_order) values

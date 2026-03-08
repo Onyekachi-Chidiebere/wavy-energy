@@ -125,7 +125,7 @@ export default function Home() {
 
       <nav id="nav" className={scrolled ? "s" : ""}>
         <a href="#home" className="nl">
-          <Image src={logo} alt="Wavy Energy Logo" className="nl-logo" width={97} height={78} />
+          <Image src={logo} alt="Wavy Energy Logo" className="nl-logo" width={92} height={74} />
         </a>
         <ul className="nm">
           <li>

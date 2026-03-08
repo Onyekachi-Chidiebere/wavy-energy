@@ -967,21 +967,21 @@ export default function Home() {
                   <div className="ctc-ic">✉️</div>
                   <div>
                     <div className="ctc-l">Email</div>
-                    <div className="ctc-v">info@wavyenergy.com</div>
+                    <div className="ctc-v">contact@wavyenergy.com</div>
                   </div>
                 </div>
                 <div className="ctc rv">
                   <div className="ctc-ic">🌐</div>
                   <div>
                     <div className="ctc-l">Website</div>
-                    <div className="ctc-v">www.wavyenergy.com</div>
+                    <div className="ctc-v">www.wavyenergyltd.com</div>
                   </div>
                 </div>
                 <div className="ctc rv">
                   <div className="ctc-ic">📍</div>
                   <div>
                     <div className="ctc-l">Address</div>
-                    <div className="ctc-v">Lagos State, Nigeria</div>
+                    <div className="ctc-v">Ikeja Lagos State, Nigeria</div>
                   </div>
                 </div>
               </div>

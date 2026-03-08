@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import ImageUploader from "./components/ImageUploader";
+import logo from '../images/logo.png'
+import Image from "next/image";
 
 export default function AdminDashboard() {
   const supabase = createClient();
@@ -125,27 +127,23 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-50 to-slate-100 font-sans">
-      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-8 sm:py-10">
-        <header className="mb-6 border-b border-slate-200 pb-4">
+       <nav>
+        <Image alt='logo' height={97} width={74} src={logo}/>
+      </nav>
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-8 sm:py-10 mt-10">
+    
+        <header className="!mb-6 border-b border-slate-200 pb-4">
+      
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="text-xs font-semibold tracking-[0.3em] text-green-900/70">
-                WAVY CMS
-              </p>
+             
               <h1 className="text-lg font-bold text-slate-900">
-                Admin Dashboard
+                Wavy Energy CMS
               </h1>
               <p className="mt-1 text-xs text-slate-500">
                 Manage all public-facing content for the Wavy Energy website.
               </p>
             </div>
-            <a
-              href="/"
-              target="_blank"
-              className="inline-flex items-center justify-center rounded-md bg-green-900 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-900 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100"
-            >
-              View Live Site ↗
-            </a>
           </div>
 
           {/* Tab switcher */}
@@ -345,75 +343,125 @@ export default function AdminDashboard() {
 
         {/* --- TEAM TAB --- */}
         {activeTab === "team" && (
-        <div className="space-y-8 pb-16">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-bold text-slate-900">Team Members</h2>
-            <button
-              onClick={addTeamMember}
-              className="rounded bg-green-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-900 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100"
-            >
-              + Add Member
-            </button>
-          </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {team.map((member) => (
-              <div
-                key={member.id}
-                className="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition hover:border-green-200 hover:shadow-md"
+          <div className="space-y-6 pb-16">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold text-slate-900">Team Members</h2>
+              <button
+                onClick={addTeamMember}
+                className="rounded bg-green-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-900 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100"
               >
-                <ImageUploader 
-                  label="Photo" 
-                  currentUrl={member.image_url} 
-                  onUpload={(url) => updateTeamMember(member.id, "image_url", url)} 
-                />
-                <Input label="Name" value={member.name} onChange={(v) => updateTeamMember(member.id, "name", v)} />
-                <Input label="Role" value={member.role} onChange={(v) => updateTeamMember(member.id, "role", v)} />
-                <TextArea label="Bio" value={member.bio} onChange={(v) => updateTeamMember(member.id, "bio", v)} />
-                <Input label="Order" value={member.display_order} type="number" onChange={(v) => updateTeamMember(member.id, "display_order", v)} />
-                <button
-                  onClick={() => deleteTeamMember(member.id)}
-                  className="mt-1 text-sm font-medium text-red-600 hover:underline"
+                + Add Member
+              </button>
+            </div>
+            <p className="text-xs text-slate-500">
+              Changes to team members are saved automatically as you edit.
+            </p>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              {team.map((member) => (
+                <div
+                  key={member.id}
+                  className="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition hover:border-green-200 hover:shadow-md"
                 >
-                  Delete Member
-                </button>
-              </div>
-            ))}
+                  <ImageUploader
+                    label="Photo"
+                    currentUrl={member.image_url}
+                    onUpload={(url) =>
+                      updateTeamMember(member.id, "image_url", url)
+                    }
+                  />
+                  <Input
+                    label="Name"
+                    value={member.name}
+                    onChange={(v) =>
+                      updateTeamMember(member.id, "name", v)
+                    }
+                  />
+                  <Input
+                    label="Role"
+                    value={member.role}
+                    onChange={(v) =>
+                      updateTeamMember(member.id, "role", v)
+                    }
+                  />
+                  <TextArea
+                    label="Bio"
+                    value={member.bio}
+                    onChange={(v) =>
+                      updateTeamMember(member.id, "bio", v)
+                    }
+                  />
+                  <Input
+                    label="Order"
+                    value={member.display_order}
+                    type="number"
+                    onChange={(v) =>
+                      updateTeamMember(member.id, "display_order", v)
+                    }
+                  />
+                  <button
+                    onClick={() => deleteTeamMember(member.id)}
+                    className="mt-1 text-sm font-medium text-red-600 hover:underline"
+                  >
+                    Delete Member
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* --- SERVICES TAB --- */}
-      {activeTab === "services" && (
-        <div className="space-y-8 pb-16">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-slate-900">Services</h2>
-            <button
-              onClick={addService}
-              className="rounded bg-green-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-900 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100"
-            >
-              + Add Service
-            </button>
-          </div>
-          <div className="space-y-4">
-            {services.map((svc) => (
-              <div
-                key={svc.id}
-                className="space-y-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition hover:border-green-200 hover:shadow-md"
+        {/* --- SERVICES TAB --- */}
+        {activeTab === "services" && (
+          <div className="space-y-6 pb-16">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold text-slate-900">Services</h2>
+              <button
+                onClick={addService}
+                className="rounded bg-green-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-900 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100"
               >
-                <Input label="Service Name" value={svc.name} onChange={(v) => updateService(svc.id, "name", v)} />
-                <TextArea label="Description" value={svc.description} onChange={(v) => updateService(svc.id, "description", v)} />
-                <Input label="Order" value={svc.display_order} type="number" onChange={(v) => updateService(svc.id, "display_order", v)} />
-                <button
-                  onClick={() => deleteService(svc.id)}
-                  className="mt-1 text-sm font-medium text-red-600 hover:underline"
+                + Add Service
+              </button>
+            </div>
+            <p className="text-xs text-slate-500">
+              Edits to services are saved automatically as you change fields.
+            </p>
+            <div className="space-y-4">
+              {services.map((svc) => (
+                <div
+                  key={svc.id}
+                  className="space-y-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition hover:border-green-200 hover:shadow-md"
                 >
-                  Delete Service
-                </button>
-              </div>
-            ))}
+                  <Input
+                    label="Service Name"
+                    value={svc.name}
+                    onChange={(v) => updateService(svc.id, "name", v)}
+                  />
+                  <TextArea
+                    label="Description"
+                    value={svc.description}
+                    onChange={(v) =>
+                      updateService(svc.id, "description", v)
+                    }
+                  />
+                  <Input
+                    label="Order"
+                    value={svc.display_order}
+                    type="number"
+                    onChange={(v) =>
+                      updateService(svc.id, "display_order", v)
+                    }
+                  />
+                  <button
+                    onClick={() => deleteService(svc.id)}
+                    className="mt-1 text-sm font-medium text-red-600 hover:underline"
+                  >
+                    Delete Service
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </div>
   );

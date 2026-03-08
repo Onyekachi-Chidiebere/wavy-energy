@@ -97,24 +97,24 @@ insert into site_content (key, value) values
   ('why_intro', 'Nigeria''s energy services market is dominated by operators whose value propositions focus primarily on price and availability. Wavy Energy differentiates itself through technical competence, disciplined operations, and institutional-grade service standards.'),
 
   -- Contact & Footer
-  ('contact_email', 'info@wavyenergy.com'),
+  ('contact_email', 'contact@wavyenergyltd.com'),
   ('contact_phone', '+234 916 000 8477'),
   ('contact_address', 'Ikeja Lagos State, Nigeria'),
   ('footer_tagline', 'Fueling Growth with Clean Energy Solutions.');
 
 -- Team Members
 insert into team_members (name, role, bio, image_url, display_order) values
-('Kenneth Martins', 'Group Chief Executive Officer', 'At the helm of Wavy Energy, Kenneth Martins provides overall strategic direction...', '', 1),
-('Tolulope Ogunleye', 'Group Executive Director', 'Tolulope Ogunleye brings over a decade of experience in corporate governance...', '', 2),
-('Engr. Tega Akpo', 'Chief of Operations', 'Engineer Tega Akpo brings more than ten years of operational leadership...', '', 3);
+('Kenneth Martins', 'Group Chief Executive Officer', "At the helm of Wavy Energy, Kenneth Martins provides overall strategic direction and executive oversight, ensuring the company's operations align with its long-term growth objectives and service commitments. His leadership focuses on building a resilient energy company defined by operational discipline, reliability, and sustainable expansion.", '', 1),
+('Tolulope Ogunleye', 'Group Executive Director', 'Tolulope Ogunleye brings over a decade of experience in corporate governance and strategic leadership. His role centres on strengthening organisational structure, enhancing governance frameworks, and positioning the company for scalable growth through structured planning, institutional partnerships, and disciplined executive coordination.', '', 2),
+('Engr. Tega Akpo', 'Chief of Operations', 'Engineer Tega Akpo brings more than ten years of operational leadership within the energy sector. He oversees technical delivery, operational supervision, and project execution, ensuring that all supply, engineering, and energy system deployments are conducted with efficiency, safety compliance, and professional oversight.', '', 3);
 
 -- Services
 insert into services (name, description, tags, display_order) values
-('Bulk Petroleum Product Supply', 'Large-volume procurement and logistics management...', ARRAY['AGO (Diesel)', 'PMS (Petrol)', 'LPG (Cooking Gas)'], 1),
-('Gas Plant Design & Installation', 'Engineering, fabrication, and commissioning of LPG...', ARRAY['Site Survey', 'System Design', 'Safety Certification'], 2),
-('Retail & Wholesale Distribution', 'Targeted supply of petroleum products to smaller...', ARRAY['Flexible Volume', 'Scheduled Delivery'], 3),
-('Gas Infrastructure Maintenance', 'Scheduled and emergency technical maintenance...', ARRAY['Preventive Maintenance', 'Emergency Repairs'], 4),
-('Solar Power Systems', 'End-to-end delivery of solar photovoltaic power...', ARRAY['Load Analysis', 'Battery Storage', 'Support'], 5);
+('Bulk Petroleum Product Supply', 'Large-volume procurement and logistics management for Automotive Gas Oil (AGO), Premium Motor Spirit (PMS), Liquefied Petroleum Gas (LPG), and Dual Purpose Kerosene (DPK). Our supply chain is designed for volume, velocity, and reliability — with haulage partnerships, product quality controls, and delivery documentation protocols embedded across every transaction.', ARRAY['AGO (Diesel)', 'PMS (Petrol)', 'LPG (Cooking Gas)'], 1),
+('Gas Plant Design & Installation', 'Engineering, fabrication, and commissioning of LPG gas plant systems for residential properties, hotels, hospitals, schools, restaurants, and commercial facilities. Our engineering team conducts site surveys, load assessments, and system specifications before any construction begins. All installations undergo a formal commissioning and safety verification process before handover.', ARRAY['Site Survey', 'System Design', 'Safety Certification'], 2),
+('Retail & Wholesale Distribution', 'Targeted supply of petroleum products to smaller commercial, hospitality, and residential clients requiring flexible volume and delivery scheduling. Wavy Energy provides structured retail and wholesale distribution services with clear pricing, defined lead times, and documented delivery processes.', ARRAY['Flexible Volume', 'Scheduled Delivery'], 3),
+('Gas Infrastructure Maintenance', 'Scheduled and emergency technical maintenance of gas plants, storage tanks, pumping systems, pipelines, and dispensing equipment. Our technical team provides periodic inspection programmes, preventive maintenance schedules, and emergency repair services for all gas infrastructure. All maintenance activities are documented and reconciled against client safety records.', ARRAY['Preventive Maintenance', 'Emergency Repairs'], 4),
+('Solar Power Systems', 'End-to-end delivery of solar photovoltaic power systems for residential, commercial, and institutional clients. We conduct electrical load analysis and site assessment, supply and install solar panels, inverter systems, battery storage, and all balance-of-system components, and provide ongoing technical support and warranty management after installation.', ARRAY['Load Analysis', 'Battery Storage', 'Support'], 5);
 ```
 
 

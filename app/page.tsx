@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-
+import logo from './images/logo.png';
+import Image from 'next/image';
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [openSvc, setOpenSvc] = useState<number | null>(0);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
 
   const cursorRef = useRef<HTMLDivElement | null>(null);
   const cursorRingRef = useRef<HTMLDivElement | null>(null);
@@ -123,10 +125,7 @@ export default function Home() {
 
       <nav id="nav" className={scrolled ? "s" : ""}>
         <a href="#home" className="nl">
-          <div className="nl-mark">
-            <span>WE</span>
-          </div>
-          <span className="nl-text">Wavy Energy</span>
+          <Image src={logo} alt="Wavy Energy Logo" className="nl-logo" width={150} height={120} />
         </a>
         <ul className="nm">
           <li>
@@ -1109,8 +1108,7 @@ export default function Home() {
           <div className="ft-top">
             <div>
               <div className="fb-logo">
-                <div className="m" />
-                Wavy Energy
+                <Image src={logo} alt="Wavy Energy Logo" className="fb-logo-img" width={200} height={150} />
               </div>
               <p className="fb-tl">
                 &quot;Fueling Growth with
@@ -1172,13 +1170,13 @@ export default function Home() {
                   <a href="tel:+2349160008477">+234 916 000 8477</a>
                 </li>
                 <li>
-                  <a href="mailto:info@wavyenergy.com">info@wavyenergy.com</a>
+                  <a href="mailto:contact@wavyenergyltd.com">contact@wavyenergyltd.com</a>
                 </li>
                 <li>
-                  <a href="#">www.wavyenergy.com</a>
+                  <a href="#">www.wavyenergyltd.com</a>
                 </li>
                 <li>
-                  <a href="#contact">Lagos State, Nigeria</a>
+                  <a href="#contact">Ikeja Lagos State, Nigeria</a>
                 </li>
               </ul>
             </div>

@@ -6,7 +6,7 @@ import ImageUploader from "./components/ImageUploader";
 
 export default function AdminDashboard() {
   const supabase = createClient();
-  const [activeTab, setActiveTab] = useState("general");
+  const [activeTab, setActiveTab] = useState("hero");
   const [loading, setLoading] = useState(true);
   
   // Data State
@@ -83,9 +83,19 @@ export default function AdminDashboard() {
 
   const tabs = [
     {
-      id: "general",
-      label: "General Content",
-      description: "Hero, About, Vision & Mission, HSE, Why Us, and contact/footer text.",
+      id: "hero",
+      label: "Hero & Stats",
+      description: "Hero banner text, tagline, and key performance statistics.",
+    },
+    {
+      id: "about",
+      label: "About & Vision",
+      description: "Company overview narrative, callout, and vision/mission statements.",
+    },
+    {
+      id: "hse_contact",
+      label: "HSE, Why Us & Contact",
+      description: "HSE narrative, Why Wavy Energy intro, and contact/footer details.",
     },
     {
       id: "team",
@@ -166,136 +176,166 @@ export default function AdminDashboard() {
           </p>
         </header>
 
-        {/* --- GENERAL TAB --- */}
-        {activeTab === "general" && (
+        {/* --- HERO TAB --- */}
+        {activeTab === "hero" && (
           <form onSubmit={saveContent} className="space-y-6 pb-16">
-          <Section title="Hero Section">
-            <Input
-              label="Top Tagline"
-              value={content.hero_tag}
-              onChange={(v) => setContent({ ...content, hero_tag: v })}
-            />
-            <Input
-              label="Hero Title"
-              value={content.hero_title}
-              onChange={(v) => setContent({ ...content, hero_title: v })}
-            />
-            <TextArea
-              label="Hero Description"
-              value={content.hero_description}
-              onChange={(v) =>
-                setContent({ ...content, hero_description: v })
-              }
-            />
-          </Section>
+            <Section title="Hero Section">
+              <Input
+                label="Top Tagline"
+                value={content.hero_tag}
+                onChange={(v) => setContent({ ...content, hero_tag: v })}
+              />
+              <Input
+                label="Hero Title"
+                value={content.hero_title}
+                onChange={(v) => setContent({ ...content, hero_title: v })}
+              />
+              <TextArea
+                label="Hero Description"
+                value={content.hero_description}
+                onChange={(v) =>
+                  setContent({ ...content, hero_description: v })
+                }
+              />
+            </Section>
 
-          <Section title="Hero Statistics">
-            <Input
-              label="Litres Capacity (e.g. 150K)"
-              value={content.stats_litres}
-              onChange={(v) => setContent({ ...content, stats_litres: v })}
-            />
-            <Input
-              label="States Covered (e.g. 36+)"
-              value={content.stats_states}
-              onChange={(v) => setContent({ ...content, stats_states: v })}
-            />
-            <Input
-              label="Service Lines (e.g. 5)"
-              value={content.stats_lines}
-              onChange={(v) => setContent({ ...content, stats_lines: v })}
-            />
-            <Input
-              label="Documentation % (e.g. 100%)"
-              value={content.stats_doc}
-              onChange={(v) => setContent({ ...content, stats_doc: v })}
-            />
-          </Section>
+            <Section title="Hero Statistics">
+              <Input
+                label="Litres Capacity (e.g. 150K)"
+                value={content.stats_litres}
+                onChange={(v) => setContent({ ...content, stats_litres: v })}
+              />
+              <Input
+                label="States Covered (e.g. 36+)"
+                value={content.stats_states}
+                onChange={(v) => setContent({ ...content, stats_states: v })}
+              />
+              <Input
+                label="Service Lines (e.g. 5)"
+                value={content.stats_lines}
+                onChange={(v) => setContent({ ...content, stats_lines: v })}
+              />
+              <Input
+                label="Documentation % (e.g. 100%)"
+                value={content.stats_doc}
+                onChange={(v) => setContent({ ...content, stats_doc: v })}
+              />
+            </Section>
 
-          <Section title="About Section">
-            <TextArea
-              label="Intro Paragraph"
-              value={content.about_intro}
-              onChange={(v) => setContent({ ...content, about_intro: v })}
-            />
-            <TextArea
-              label="Body Paragraph 1"
-              value={content.about_body_1}
-              onChange={(v) => setContent({ ...content, about_body_1: v })}
-            />
-            <TextArea
-              label="Body Paragraph 2"
-              value={content.about_body_2}
-              onChange={(v) => setContent({ ...content, about_body_2: v })}
-            />
-            <TextArea
-              label="About Callout"
-              value={content.about_callout}
-              onChange={(v) => setContent({ ...content, about_callout: v })}
-            />
-          </Section>
+            <button className="inline-flex items-center justify-center rounded bg-green-900 px-6 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-900 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100">
+              Save Changes
+            </button>
+          </form>
+        )}
 
-          <Section title="Vision & Mission">
-            <TextArea
-              label="Vision Statement"
-              value={content.vision_text}
-              onChange={(v) => setContent({ ...content, vision_text: v })}
-            />
-            <TextArea
-              label="Mission Statement"
-              value={content.mission_text}
-              onChange={(v) => setContent({ ...content, mission_text: v })}
-            />
-          </Section>
+        {/* --- ABOUT TAB --- */}
+        {activeTab === "about" && (
+          <form onSubmit={saveContent} className="space-y-6 pb-16">
+            <Section title="About Section">
+              <TextArea
+                label="Intro Paragraph"
+                value={content.about_intro}
+                onChange={(v) => setContent({ ...content, about_intro: v })}
+              />
+              <TextArea
+                label="Body Paragraph 1"
+                value={content.about_body_1}
+                onChange={(v) => setContent({ ...content, about_body_1: v })}
+              />
+              <TextArea
+                label="Body Paragraph 2"
+                value={content.about_body_2}
+                onChange={(v) => setContent({ ...content, about_body_2: v })}
+              />
+              <TextArea
+                label="About Callout"
+                value={content.about_callout}
+                onChange={(v) =>
+                  setContent({ ...content, about_callout: v })
+                }
+              />
+            </Section>
 
-          <Section title="HSE & Compliance">
-            <TextArea
-              label="HSE Intro Paragraph"
-              value={content.hse_intro}
-              onChange={(v) => setContent({ ...content, hse_intro: v })}
-            />
-            <TextArea
-              label="HSE Body Paragraph"
-              value={content.hse_body}
-              onChange={(v) => setContent({ ...content, hse_body: v })}
-            />
-            <TextArea
-              label="Safety Quote"
-              value={content.hse_quote}
-              onChange={(v) => setContent({ ...content, hse_quote: v })}
-            />
-          </Section>
+            <Section title="Vision & Mission">
+              <TextArea
+                label="Vision Statement"
+                value={content.vision_text}
+                onChange={(v) => setContent({ ...content, vision_text: v })}
+              />
+              <TextArea
+                label="Mission Statement"
+                value={content.mission_text}
+                onChange={(v) =>
+                  setContent({ ...content, mission_text: v })
+                }
+              />
+            </Section>
 
-          <Section title="Why Choose Us">
-            <TextArea
-              label="Intro Paragraph"
-              value={content.why_intro}
-              onChange={(v) => setContent({ ...content, why_intro: v })}
-            />
-          </Section>
+            <button className="inline-flex items-center justify-center rounded bg-green-900 px-6 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-900 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100">
+              Save Changes
+            </button>
+          </form>
+        )}
 
-          <Section title="Contact & Footer">
-            <Input
-              label="Public Email"
-              value={content.contact_email}
-              onChange={(v) => setContent({ ...content, contact_email: v })}
-            />
-            <Input
-              label="Public Phone"
-              value={content.contact_phone}
-              onChange={(v) => setContent({ ...content, contact_phone: v })}
-            />
-            <Input
-              label="Address Line"
-              value={content.contact_address}
-              onChange={(v) => setContent({ ...content, contact_address: v })}
-            />
-            <TextArea
-              label="Footer Tagline"
-              value={content.footer_tagline}
-              onChange={(v) => setContent({ ...content, footer_tagline: v })}
-            />
-          </Section>
+        {/* --- HSE / WHY / CONTACT TAB --- */}
+        {activeTab === "hse_contact" && (
+          <form onSubmit={saveContent} className="space-y-6 pb-16">
+            <Section title="HSE & Compliance">
+              <TextArea
+                label="HSE Intro Paragraph"
+                value={content.hse_intro}
+                onChange={(v) => setContent({ ...content, hse_intro: v })}
+              />
+              <TextArea
+                label="HSE Body Paragraph"
+                value={content.hse_body}
+                onChange={(v) => setContent({ ...content, hse_body: v })}
+              />
+              <TextArea
+                label="Safety Quote"
+                value={content.hse_quote}
+                onChange={(v) => setContent({ ...content, hse_quote: v })}
+              />
+            </Section>
+
+            <Section title="Why Choose Us">
+              <TextArea
+                label="Intro Paragraph"
+                value={content.why_intro}
+                onChange={(v) => setContent({ ...content, why_intro: v })}
+              />
+            </Section>
+
+            <Section title="Contact & Footer">
+              <Input
+                label="Public Email"
+                value={content.contact_email}
+                onChange={(v) =>
+                  setContent({ ...content, contact_email: v })
+                }
+              />
+              <Input
+                label="Public Phone"
+                value={content.contact_phone}
+                onChange={(v) =>
+                  setContent({ ...content, contact_phone: v })
+                }
+              />
+              <Input
+                label="Address Line"
+                value={content.contact_address}
+                onChange={(v) =>
+                  setContent({ ...content, contact_address: v })
+                }
+              />
+              <TextArea
+                label="Footer Tagline"
+                value={content.footer_tagline}
+                onChange={(v) =>
+                  setContent({ ...content, footer_tagline: v })
+                }
+              />
+            </Section>
 
             <button className="inline-flex items-center justify-center rounded bg-green-900 px-6 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-900 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100">
               Save Changes

@@ -6,9 +6,17 @@ export async function POST(req: Request) {
     const { firstName, lastName, email, organisation, enquiryType, message } = await req.json();
 
     // Verify SMTP configuration
-    if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      console.error('SMTP credentials not found in environment variables.');
-      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
+    if (!process.env.SMTP_HOST) {
+      console.error('SMTP_HOST is missing in environment variables.');
+      return NextResponse.json({ error: 'Server configuration error (host)' }, { status: 500 });
+    }
+    if (!process.env.SMTP_USER) {
+      console.error('SMTP_USER is missing in environment variables.');
+      return NextResponse.json({ error: 'Server configuration error (user)' }, { status: 500 });
+    }
+    if (!process.env.SMTP_PASS) {
+      console.error('SMTP_PASS is missing in environment variables.');
+      return NextResponse.json({ error: 'Server configuration error (password)' }, { status: 500 });
     }
 
     const transporter = nodemailer.createTransport({

@@ -15,6 +15,7 @@ export default function Home() {
       {
         initials: "KM",
         name: "Kenneth Martins",
+        photoSrc: "/team/kenneth-martins.jpg",
         role: "Group Chief Executive Officer",
         bio:
           "At the helm of Wavy Energy, Kenneth Martins provides overall strategic direction and executive oversight, ensuring the company's operations align with its long-term growth objectives and service commitments. His leadership focuses on building a resilient energy company defined by operational discipline, reliability, and sustainable expansion.",
@@ -22,6 +23,7 @@ export default function Home() {
       {
         initials: "TO",
         name: "Tolulope Ogunleye",
+        photoSrc: "/team/tolulope-ogunleye.jpg",
         role: "Group Executive Director",
         bio:
           "Tolulope Ogunleye brings over a decade of experience in corporate governance and strategic leadership. His role centres on strengthening organisational structure, enhancing governance frameworks, and positioning the company for scalable growth through structured planning, institutional partnerships, and disciplined executive coordination.",
@@ -29,6 +31,7 @@ export default function Home() {
       {
         initials: "TA",
         name: "Engr. Tega Akpo",
+        photoSrc: "/team/engr-tega-akpo.jpg",
         role: "Chief of Operations",
         bio:
           "Engineer Tega Akpo brings more than ten years of operational leadership within the energy sector. He oversees technical delivery, operational supervision, and project execution, ensuring that all supply, engineering, and energy system deployments are conducted with efficiency, safety compliance, and professional oversight.",
@@ -913,9 +916,19 @@ export default function Home() {
           <div className="tg">
             {team.map((p) => (
               <div className="tc rv" key={p.name}>
-                <div className="tc-av" aria-hidden="true">
-                  {p.initials}
-                </div>
+                {p.photoSrc ? (
+                  <img
+                    className="tc-photo"
+                    src={p.photoSrc}
+                    alt={p.name}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div className="tc-av" aria-hidden="true">
+                    {p.initials}
+                  </div>
+                )}
                 <div className="tc-n">{p.name}</div>
                 <div className="tc-hover-info">
                   <div className="tc-r">{p.role}</div>

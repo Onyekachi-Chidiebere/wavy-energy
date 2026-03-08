@@ -215,6 +215,24 @@ h2.st em{font-style:italic;color:var(--gold)}
 .tc-r{font-family:var(--bc);font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
 .tc-b{font-size:.82rem;line-height:1.85;color:var(--muted);text-align:left}
 
+/* Leadership photos */
+.tc-photo {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 16px;
+  margin-bottom: 26px;
+  display: block;
+  border: 2.5px solid var(--gold);
+  box-shadow: 0 0 0 5px rgba(200,168,75,.12), 0 8px 24px rgba(0,0,0,.12);
+  transition: transform .3s, box-shadow .3s;
+}
+.tc:hover .tc-photo {
+  transform: scale(1.03);
+  box-shadow: 0 0 0 6px rgba(200,168,75,.2), 0 14px 36px rgba(0,0,0,.18);
+}
+
 .contact{background:var(--cream)}
 .ct-g{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:start}
 .ct-cards{display:flex;flex-direction:column;gap:2px}

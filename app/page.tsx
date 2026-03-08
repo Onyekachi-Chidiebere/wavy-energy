@@ -6,6 +6,8 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [openSvc, setOpenSvc] = useState<number | null>(0);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const cursorRef = useRef<HTMLDivElement | null>(null);
   const cursorRingRef = useRef<HTMLDivElement | null>(null);
@@ -1010,32 +1012,64 @@ export default function Home() {
 
             <form
               className="cf rv-s"
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                setSubmitted(true);
+                setIsSubmitting(true);
+                setError(null);
+                
+                const formData = new FormData(e.currentTarget);
+                const data = {
+                  firstName: formData.get("firstName"),
+                  lastName: formData.get("lastName"),
+                  email: formData.get("email"),
+                  organisation: formData.get("organisation"),
+                  enquiryType: formData.get("enquiryType"),
+                  message: formData.get("message"),
+                };
+
+                try {
+                  const response = await fetch("/api/contact", {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                  });
+
+                  if (response.ok) {
+                    setSubmitted(true);
+                  } else {
+                    const result = await response.json();
+                    setError(result.error || "Failed to send enquiry. Please try again.");
+                  }
+                } catch (err) {
+                  setError("An unexpected error occurred. Please try again later.");
+                } finally {
+                  setIsSubmitting(false);
+                }
               }}
             >
               <div className="fr">
                 <div className="fg">
                   <label className="fl">First Name</label>
-                  <input className="fi" type="text" placeholder="Your first name" required />
+                  <input className="fi" name="firstName" type="text" placeholder="Your first name" required />
                 </div>
                 <div className="fg">
                   <label className="fl">Last Name</label>
-                  <input className="fi" type="text" placeholder="Your last name" required />
+                  <input className="fi" name="lastName" type="text" placeholder="Your last name" required />
                 </div>
               </div>
               <div className="fg">
                 <label className="fl">Email Address</label>
-                <input className="fi" type="email" placeholder="your@email.com" required />
+                <input className="fi" name="email" type="email" placeholder="your@email.com" required />
               </div>
               <div className="fg">
                 <label className="fl">Organisation</label>
-                <input className="fi" type="text" placeholder="Company or organisation" />
+                <input className="fi" name="organisation" type="text" placeholder="Company or organisation" />
               </div>
               <div className="fg">
                 <label className="fl">Enquiry Type</label>
-                <select className="fs" defaultValue="">
+                <select className="fs" name="enquiryType" defaultValue="">
                   <option value="">Select enquiry type</option>
                   <option>Bulk Petroleum Product Supply</option>
                   <option>Gas Plant Design &amp; Installation</option>
@@ -1048,21 +1082,22 @@ export default function Home() {
               </div>
               <div className="fg">
                 <label className="fl">Message</label>
-                <textarea className="ft" placeholder="Tell us about your requirements..." required />
+                <textarea className="ft" name="message" placeholder="Tell us about your requirements..." required />
               </div>
+              {error && <div style={{ color: "red", fontSize: "0.85rem", marginBottom: "15px" }}>{error}</div>}
               <button
                 type="submit"
                 className="fsub"
-                disabled={submitted}
+                disabled={submitted || isSubmitting}
                 style={
                   submitted
                     ? { background: "var(--green)", opacity: 0.98, transform: "none" }
-                    : undefined
+                    : isSubmitting ? { opacity: 0.7, cursor: "not-allowed" } : undefined
                 }
               >
                 {submitted
                   ? "✓ Enquiry received — we will be in touch shortly."
-                  : "Send Enquiry →"}
+                  : isSubmitting ? "Sending..." : "Send Enquiry →"}
               </button>
             </form>
           </div>

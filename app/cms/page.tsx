@@ -81,22 +81,94 @@ export default function AdminDashboard() {
     await supabase.from("services").delete().eq("id", id);
   }
 
-  if (loading) return <div className="p-10 text-green-900">Loading Dashboard...</div>;
+  const tabs = [
+    {
+      id: "general",
+      label: "General Content",
+      description: "Hero, About, Vision & Mission, HSE, Why Us, and contact/footer text.",
+    },
+    {
+      id: "team",
+      label: "Team",
+      description: "Principal officers, roles, biographies, photos, and display order.",
+    },
+    {
+      id: "services",
+      label: "Services",
+      description: "Service lines, descriptions, and how they appear in the accordion.",
+    },
+  ] as const;
+
+  const active = tabs.find((t) => t.id === activeTab) ?? tabs[0];
+
+  if (loading)
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-50 text-green-900">
+        <div className="flex items-center gap-3 rounded-full bg-white px-5 py-3 shadow-sm ring-1 ring-green-900/10">
+          <span className="h-2 w-2 animate-ping rounded-full bg-green-700" />
+          <span className="text-sm font-medium tracking-wide">
+            Loading Wavy CMS…
+          </span>
+        </div>
+      </div>
+    );
 
   return (
-    <div className="max-w-5xl mx-auto p-8 font-sans">
-      <header className="mb-8 border-b pb-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-green-900">Wavy CMS</h1>
-        <div className="space-x-4">
-          <button onClick={() => setActiveTab("general")} className={`px-4 py-2 rounded ${activeTab === 'general' ? 'bg-green-900 text-white' : 'bg-gray-100'}`}>General</button>
-          <button onClick={() => setActiveTab("team")} className={`px-4 py-2 rounded ${activeTab === 'team' ? 'bg-green-900 text-white' : 'bg-gray-100'}`}>Team</button>
-          <button onClick={() => setActiveTab("services")} className={`px-4 py-2 rounded ${activeTab === 'services' ? 'bg-green-900 text-white' : 'bg-gray-100'}`}>Services</button>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-50 to-slate-100 font-sans">
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-8 sm:py-10">
+        <header className="mb-6 border-b border-slate-200 pb-4">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold tracking-[0.3em] text-green-900/70">
+                WAVY CMS
+              </p>
+              <h1 className="text-lg font-bold text-slate-900">
+                Admin Dashboard
+              </h1>
+              <p className="mt-1 text-xs text-slate-500">
+                Manage all public-facing content for the Wavy Energy website.
+              </p>
+            </div>
+            <a
+              href="/"
+              target="_blank"
+              className="inline-flex items-center justify-center rounded-md bg-green-900 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-900 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100"
+            >
+              View Live Site ↗
+            </a>
+          </div>
 
-      {/* --- GENERAL TAB --- */}
-      {activeTab === "general" && (
-        <form onSubmit={saveContent} className="space-y-6">
+          {/* Tab switcher */}
+          <div className="mt-4 flex flex-wrap gap-2">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+                  activeTab === tab.id
+                    ? "border-green-900 bg-green-900 text-white shadow-sm"
+                    : "border-slate-300 bg-white text-slate-700 hover:border-green-700 hover:text-green-900"
+                }`}
+              >
+                <span
+                  className={`h-1.5 w-1.5 rounded-full ${
+                    activeTab === tab.id ? "bg-emerald-300" : "bg-slate-300"
+                  }`}
+                />
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Active tab description */}
+          <p className="mt-3 max-w-2xl text-xs text-slate-500">
+            {active.description}
+          </p>
+        </header>
+
+        {/* --- GENERAL TAB --- */}
+        {activeTab === "general" && (
+          <form onSubmit={saveContent} className="space-y-6 pb-16">
           <Section title="Hero Section">
             <Input
               label="Top Tagline"
@@ -225,22 +297,30 @@ export default function AdminDashboard() {
             />
           </Section>
 
-          <button className="bg-green-900 text-white px-6 py-2 rounded font-bold">
-            Save Changes
-          </button>
-        </form>
-      )}
+            <button className="inline-flex items-center justify-center rounded bg-green-900 px-6 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-900 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100">
+              Save Changes
+            </button>
+          </form>
+        )}
 
-      {/* --- TEAM TAB --- */}
-      {activeTab === "team" && (
-        <div className="space-y-8">
+        {/* --- TEAM TAB --- */}
+        {activeTab === "team" && (
+        <div className="space-y-8 pb-16">
           <div className="flex justify-between items-center">
-            <h2 className="text-xl font-bold text-yellow-600">Team Members</h2>
-            <button onClick={addTeamMember} className="bg-green-900 text-white px-4 py-2 rounded">+ Add Member</button>
+            <h2 className="text-xl font-bold text-slate-900">Team Members</h2>
+            <button
+              onClick={addTeamMember}
+              className="rounded bg-green-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-900 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100"
+            >
+              + Add Member
+            </button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {team.map((member) => (
-              <div key={member.id} className="border p-4 rounded bg-gray-50 shadow-sm">
+              <div
+                key={member.id}
+                className="flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition hover:border-green-200 hover:shadow-md"
+              >
                 <ImageUploader 
                   label="Photo" 
                   currentUrl={member.image_url} 
@@ -250,7 +330,12 @@ export default function AdminDashboard() {
                 <Input label="Role" value={member.role} onChange={(v) => updateTeamMember(member.id, "role", v)} />
                 <TextArea label="Bio" value={member.bio} onChange={(v) => updateTeamMember(member.id, "bio", v)} />
                 <Input label="Order" value={member.display_order} type="number" onChange={(v) => updateTeamMember(member.id, "display_order", v)} />
-                <button onClick={() => deleteTeamMember(member.id)} className="text-red-600 text-sm mt-2 underline">Delete Member</button>
+                <button
+                  onClick={() => deleteTeamMember(member.id)}
+                  className="mt-1 text-sm font-medium text-red-600 hover:underline"
+                >
+                  Delete Member
+                </button>
               </div>
             ))}
           </div>
@@ -259,23 +344,37 @@ export default function AdminDashboard() {
 
       {/* --- SERVICES TAB --- */}
       {activeTab === "services" && (
-        <div className="space-y-8">
-          <div className="flex justify-between items-center">
-            <h2 className="text-xl font-bold text-yellow-600">Services</h2>
-            <button onClick={addService} className="bg-green-900 text-white px-4 py-2 rounded">+ Add Service</button>
+        <div className="space-y-8 pb-16">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-slate-900">Services</h2>
+            <button
+              onClick={addService}
+              className="rounded bg-green-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-900 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100"
+            >
+              + Add Service
+            </button>
           </div>
           <div className="space-y-4">
             {services.map((svc) => (
-              <div key={svc.id} className="border p-4 rounded bg-white shadow-sm">
+              <div
+                key={svc.id}
+                className="space-y-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition hover:border-green-200 hover:shadow-md"
+              >
                 <Input label="Service Name" value={svc.name} onChange={(v) => updateService(svc.id, "name", v)} />
                 <TextArea label="Description" value={svc.description} onChange={(v) => updateService(svc.id, "description", v)} />
                 <Input label="Order" value={svc.display_order} type="number" onChange={(v) => updateService(svc.id, "display_order", v)} />
-                <button onClick={() => deleteService(svc.id)} className="text-red-600 text-sm mt-2 underline">Delete Service</button>
+                <button
+                  onClick={() => deleteService(svc.id)}
+                  className="mt-1 text-sm font-medium text-red-600 hover:underline"
+                >
+                  Delete Service
+                </button>
               </div>
             ))}
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }
@@ -283,8 +382,8 @@ export default function AdminDashboard() {
 // Simple Helper Components for Layout
 function Section({ title, children }: { title: string, children: React.ReactNode }) {
   return (
-    <div className="bg-white p-6 rounded border border-gray-200">
-      <h3 className="text-lg font-bold text-yellow-600 mb-4">{title}</h3>
+    <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+      <h3 className="mb-4 text-lg font-semibold text-slate-900">{title}</h3>
       <div className="space-y-4">{children}</div>
     </div>
   );

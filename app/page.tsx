@@ -125,7 +125,7 @@ export default function Home() {
 
       <nav id="nav" className={scrolled ? "s" : ""}>
         <a href="#home" className="nl">
-          <Image src={logo} alt="Wavy Energy Logo" className="nl-logo" width={150} height={120} />
+          <Image src={logo} alt="Wavy Energy Logo" className="nl-logo" width={97} height={78} />
         </a>
         <ul className="nm">
           <li>
@@ -1108,7 +1108,7 @@ export default function Home() {
           <div className="ft-top">
             <div>
               <div className="fb-logo">
-                <Image src={logo} alt="Wavy Energy Logo" className="fb-logo-img" width={200} height={150} />
+                <Image src={logo} alt="Wavy Energy Logo" className="fb-logo-img" width={130} height={97} />
               </div>
               <p className="fb-tl">
                 &quot;Fueling Growth with

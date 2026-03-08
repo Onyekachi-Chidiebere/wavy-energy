@@ -1,21 +1,90 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
 import logo from './images/logo.png';
 import Image from 'next/image';
+
+interface SiteContent {
+  hero_title: string;
+  hero_description: string;
+  contact_email: string;
+  contact_phone: string;
+  about_intro: string;
+  vision_text: string;
+  mission_text: string;
+}
+
 export default function Home() {
+  const supabase = createClient();
   const [scrolled, setScrolled] = useState(false);
   const [openSvc, setOpenSvc] = useState<number | null>(0);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  
+  const [teamMembers, setTeamMembers] = useState<any[]>([]);
+  const [servicesList, setServicesList] = useState<any[]>([]);
 
+  const [content, setContent] = useState<SiteContent>({
+    hero_title: "Fueling Growth with Clean Energy Solutions.",
+    hero_description: "Wavy Energy Company Limited is an integrated downstream petroleum and energy engineering company — delivering institutional-grade petroleum supply, gas plant engineering, and solar power solutions nationwide.",
+    contact_email: "info@wavyenergy.com",
+    contact_phone: "+234 916 000 8477",
+    about_intro: "Wavy Energy Limited is an integrated downstream petroleum and energy engineering company, headquartered in Lagos, Nigeria. Prior to formal incorporation, the company's founders and technical partners had been actively engaged in petroleum distribution, fuel logistics coordination, and energy system deployment within the Nigerian market.",
+    vision_text: "To be Nigeria's most technically credible and operationally dependable energy company — a name that institutions, businesses, and households associate unconditionally with reliability, safety, and professional excellence.",
+    mission_text: "To deliver integrated energy solutions — across petroleum product supply, gas plant engineering, and solar power installation — with a standard of technical competence, safety compliance, and client accountability that defines a new benchmark for energy service providers in Nigeria.",
+  });
 
   const cursorRef = useRef<HTMLDivElement | null>(null);
   const cursorRingRef = useRef<HTMLDivElement | null>(null);
 
-  const team = useMemo(
-    () => [
+  useEffect(() => {
+    async function fetchContent() {
+      try {
+        const [contentRes, teamRes, servicesRes] = await Promise.all([
+          supabase.from("site_content").select("*"),
+          supabase.from("team_members").select("*").order("display_order"),
+          supabase.from("services").select("*").order("display_order"),
+        ]);
+        
+        if (contentRes.data) {
+          const contentMap: any = {};
+          contentRes.data.forEach((item) => {
+            contentMap[item.key] = item.value;
+          });
+          if (Object.keys(contentMap).length > 0) {
+            setContent((prev) => ({ ...prev, ...contentMap }));
+          }
+        }
+
+        if (teamRes.data && teamRes.data.length > 0) {
+          setTeamMembers(teamRes.data);
+        }
+
+        if (servicesRes.data && servicesRes.data.length > 0) {
+          setServicesList(servicesRes.data);
+        }
+
+      } catch (err) {
+        console.error("Error fetching site content:", err);
+      }
+    }
+    fetchContent();
+  }, []);
+
+  const team = useMemo(() => {
+    if (teamMembers.length > 0) {
+      return teamMembers.map(m => ({
+        initials: m.name.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase(),
+        name: m.name,
+        photoSrc: m.image_url || null,
+        role: m.role,
+        bio: m.bio
+      }));
+    }
+    
+    return [
       {
         initials: "KM",
         name: "Kenneth Martins",
@@ -40,9 +109,75 @@ export default function Home() {
         bio:
           "Engineer Tega Akpo brings more than ten years of operational leadership within the energy sector. He oversees technical delivery, operational supervision, and project execution, ensuring that all supply, engineering, and energy system deployments are conducted with efficiency, safety compliance, and professional oversight.",
       },
-    ],
-    [],
-  );
+    ];
+  }, [teamMembers]);
+
+  const services = useMemo(() => {
+    if (servicesList.length > 0) {
+      return servicesList.map((s, idx) => ({
+        n: String(idx + 1).padStart(2, '0'),
+        name: s.name,
+        body: s.description,
+        tags: Array.isArray(s.tags) ? s.tags : []
+      }));
+    }
+    
+    return [
+      {
+        n: "01",
+        name: "Bulk Petroleum Product Supply",
+        body:
+          "Large-volume procurement and logistics management for Automotive Gas Oil (AGO), Premium Motor Spirit (PMS), Liquefied Petroleum Gas (LPG), and Dual Purpose Kerosene (DPK). Our supply chain is designed for volume, velocity, and reliability — with haulage partnerships, product quality controls, and delivery documentation protocols embedded across every transaction.",
+        tags: [
+          "AGO (Diesel)",
+          "PMS (Petrol)",
+          "LPG (Cooking Gas)",
+          "DPK (Kerosene)",
+          "Contract & Spot Supply",
+        ],
+      },
+      {
+        n: "02",
+        name: "Gas Plant Design, Construction & Installation",
+        body:
+          "Engineering, fabrication, and commissioning of LPG gas plant systems for residential properties, hotels, hospitals, schools, restaurants, and commercial facilities. Our engineering team conducts site surveys, load assessments, and system specifications before any construction begins. All installations undergo a formal commissioning and safety verification process before handover.",
+        tags: [
+          "Site Survey & Assessment",
+          "System Design",
+          "Civil & Mechanical Works",
+          "Commissioning",
+          "Safety Certification",
+        ],
+      },
+      {
+        n: "03",
+        name: "Retail & Wholesale Petroleum Distribution",
+        body:
+          "Targeted supply of petroleum products to smaller commercial, hospitality, and residential clients requiring flexible volume and delivery scheduling. Wavy Energy provides structured retail and wholesale distribution services with clear pricing, defined lead times, and documented delivery processes.",
+        tags: ["Flexible Volume", "Scheduled Delivery", "Price Transparency", "Quality Assurance"],
+      },
+      {
+        n: "04",
+        name: "Gas Infrastructure Inspection, Maintenance & Repairs",
+        body:
+          "Scheduled and emergency technical maintenance of gas plants, storage tanks, pumping systems, pipelines, and dispensing equipment. Our technical team provides periodic inspection programmes, preventive maintenance schedules, and emergency repair services for all gas infrastructure. All maintenance activities are documented and reconciled against client safety records.",
+        tags: ["Preventive Maintenance", "Pump & Tank Servicing", "Emergency Repairs", "Compliance Inspections"],
+      },
+      {
+        n: "05",
+        name: "Solar Power Systems — Design, Supply, Installation & Support",
+        body:
+          "End-to-end delivery of solar photovoltaic power systems for residential, commercial, and institutional clients. We conduct electrical load analysis and site assessment, supply and install solar panels, inverter systems, battery storage, and all balance-of-system components, and provide ongoing technical support and warranty management after installation.",
+        tags: [
+          "Load Analysis",
+          "System Design & Sizing",
+          "Panel & Inverter Supply",
+          "Battery Storage",
+          "Post-Installation Support",
+        ],
+      },
+    ];
+  }, [servicesList]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -177,9 +312,7 @@ export default function Home() {
               Energy Solutions.
             </h1>
             <p className="hero-desc">
-              Wavy Energy Company Limited is an integrated downstream petroleum and energy
-              engineering company — delivering institutional-grade petroleum supply, gas plant
-              engineering, and solar power solutions nationwide.
+              {content.hero_description}
             </p>
             <div className="hero-btns">
               <a href="#services" className="btn-g">
@@ -439,61 +572,7 @@ export default function Home() {
           </div>
 
           <div className="svc-list rv">
-            {[
-              {
-                n: "01",
-                name: "Bulk Petroleum Product Supply",
-                body:
-                  "Large-volume procurement and logistics management for Automotive Gas Oil (AGO), Premium Motor Spirit (PMS), Liquefied Petroleum Gas (LPG), and Dual Purpose Kerosene (DPK). Our supply chain is designed for volume, velocity, and reliability — with haulage partnerships, product quality controls, and delivery documentation protocols embedded across every transaction.",
-                tags: [
-                  "AGO (Diesel)",
-                  "PMS (Petrol)",
-                  "LPG (Cooking Gas)",
-                  "DPK (Kerosene)",
-                  "Contract & Spot Supply",
-                ],
-              },
-              {
-                n: "02",
-                name: "Gas Plant Design, Construction & Installation",
-                body:
-                  "Engineering, fabrication, and commissioning of LPG gas plant systems for residential properties, hotels, hospitals, schools, restaurants, and commercial facilities. Our engineering team conducts site surveys, load assessments, and system specifications before any construction begins. All installations undergo a formal commissioning and safety verification process before handover.",
-                tags: [
-                  "Site Survey & Assessment",
-                  "System Design",
-                  "Civil & Mechanical Works",
-                  "Commissioning",
-                  "Safety Certification",
-                ],
-              },
-              {
-                n: "03",
-                name: "Retail & Wholesale Petroleum Distribution",
-                body:
-                  "Targeted supply of petroleum products to smaller commercial, hospitality, and residential clients requiring flexible volume and delivery scheduling. Wavy Energy provides structured retail and wholesale distribution services with clear pricing, defined lead times, and documented delivery processes.",
-                tags: ["Flexible Volume", "Scheduled Delivery", "Price Transparency", "Quality Assurance"],
-              },
-              {
-                n: "04",
-                name: "Gas Infrastructure Inspection, Maintenance & Repairs",
-                body:
-                  "Scheduled and emergency technical maintenance of gas plants, storage tanks, pumping systems, pipelines, and dispensing equipment. Our technical team provides periodic inspection programmes, preventive maintenance schedules, and emergency repair services for all gas infrastructure. All maintenance activities are documented and reconciled against client safety records.",
-                tags: ["Preventive Maintenance", "Pump & Tank Servicing", "Emergency Repairs", "Compliance Inspections"],
-              },
-              {
-                n: "05",
-                name: "Solar Power Systems — Design, Supply, Installation & Support",
-                body:
-                  "End-to-end delivery of solar photovoltaic power systems for residential, commercial, and institutional clients. We conduct electrical load analysis and site assessment, supply and install solar panels, inverter systems, battery storage, and all balance-of-system components, and provide ongoing technical support and warranty management after installation.",
-                tags: [
-                  "Load Analysis",
-                  "System Design & Sizing",
-                  "Panel & Inverter Supply",
-                  "Battery Storage",
-                  "Post-Installation Support",
-                ],
-              },
-            ].map((svc, idx) => (
+            {services.map((svc, idx) => (
               <div
                 key={svc.n}
                 className={`svc ${openSvc === idx ? "op" : ""}`}
@@ -959,14 +1038,14 @@ export default function Home() {
                   <div className="ctc-ic">📞</div>
                   <div>
                     <div className="ctc-l">Telephone</div>
-                    <div className="ctc-v">+234 916 000 8477</div>
+                    <div className="ctc-v">{content.contact_phone}</div>
                   </div>
                 </div>
                 <div className="ctc rv">
                   <div className="ctc-ic">✉️</div>
                   <div>
                     <div className="ctc-l">Email</div>
-                    <div className="ctc-v">contact@wavyenergy.com</div>
+                    <div className="ctc-v">{content.contact_email}</div>
                   </div>
                 </div>
                 <div className="ctc rv">

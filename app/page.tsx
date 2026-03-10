@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import logo from "./images/logo.png";
 import Image from "next/image";
 import "./wavy.css";
+import Link from "next/link";
 
 interface SiteContent {
   hero_title: string;
@@ -323,6 +324,9 @@ export default function Home() {
           </li>
           <li>
             <a href="#contact">Contact</a>
+          </li>
+          <li>
+            <Link href="/news">News</Link>
           </li>
         </ul>
         <button

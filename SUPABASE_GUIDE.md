@@ -77,6 +77,7 @@ insert into site_content (key, value) values
   ('stats_states', '36+'),
   ('stats_lines', '5'),
   ('stats_doc', '100%'),
+  ('band_items', 'Petroleum Supply|Gas Plant Engineering|Solar Power Systems|NMDPRA Compliant|100% Nigerian-Owned|Infrastructure Maintenance'),
 
   -- About
   ('about_intro', 'Wavy Energy Limited is an integrated downstream petroleum and energy engineering company, headquartered in Lagos, Nigeria. Prior to formal incorporation, the company''s founders and technical partners had been actively engaged in petroleum distribution, fuel logistics coordination, and energy system deployment within the Nigerian market.'),

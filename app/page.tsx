@@ -24,6 +24,7 @@ interface SiteContent {
   hse_body?: string;
   hse_quote?: string;
   why_intro?: string;
+  band_items?: string;
   contact_email: string;
   contact_phone: string;
   contact_address?: string;
@@ -70,6 +71,8 @@ export default function Home() {
       'No delivery is urgent enough, and no deadline tight enough, to justify a departure from our safety standards. At Wavy Energy, safety is the one area where we never negotiate.',
     why_intro:
       "Nigeria's energy services market is dominated by operators whose value propositions focus primarily on price and availability. Wavy Energy differentiates itself through technical competence, disciplined operations, and institutional-grade service standards.",
+    band_items:
+      "Petroleum Supply|Gas Plant Engineering|Solar Power Systems|NMDPRA Compliant|100% Nigerian-Owned|Infrastructure Maintenance",
     contact_email: "info@wavyenergy.com",
     contact_phone: "+234 916 000 8477",
     contact_address: "Ikeja Lagos State, Nigeria",
@@ -404,18 +407,15 @@ export default function Home() {
 
       <div className="band" aria-hidden="true">
         <div className="band-track">
-          <span className="band-item">Petroleum Supply</span>
-          <span className="band-item">Gas Plant Engineering</span>
-          <span className="band-item">Solar Power Systems</span>
-          <span className="band-item">NMDPRA Compliant</span>
-          <span className="band-item">100% Nigerian-Owned</span>
-          <span className="band-item">Infrastructure Maintenance</span>
-          <span className="band-item">Petroleum Supply</span>
-          <span className="band-item">Gas Plant Engineering</span>
-          <span className="band-item">Solar Power Systems</span>
-          <span className="band-item">NMDPRA Compliant</span>
-          <span className="band-item">100% Nigerian-Owned</span>
-          <span className="band-item">Infrastructure Maintenance</span>
+          {(content.band_items ||
+            "Petroleum Supply|Gas Plant Engineering|Solar Power Systems|NMDPRA Compliant|100% Nigerian-Owned|Infrastructure Maintenance")
+            .split("|")
+            .flatMap((label) => [label.trim(), label.trim()])
+            .map((label, idx) => (
+              <span className="band-item" key={`${label}-${idx}`}>
+                {label}
+              </span>
+            ))}
         </div>
       </div>
 

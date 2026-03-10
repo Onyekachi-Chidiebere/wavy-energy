@@ -20,7 +20,7 @@ export function middleware(req: NextRequest) {
   }
 
   // 2. If on the main domain but trying to access /cms directly, redirect to home
-  // This prevents https://wavy-energy.vercel.app/cms from working
+  
   if (!isCmsSubdomain && url.pathname.startsWith('/cms')) {
     return NextResponse.redirect(new URL('/', req.url));
   }

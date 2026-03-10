@@ -3,6 +3,10 @@
 import { useEffect, useState, useMemo, useRef } from "react";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import "../wavy.css";
+import "./news.css";
 
 type NewsArticle = {
   id: string;
@@ -186,20 +190,7 @@ export default function NewsPage() {
 
   return (
     <div className="news-page">
-      <nav>
-        <Link href="/" className="n-logo">
-          <div className="n-diamond" />
-          <span className="n-name">Wavy Energy</span>
-        </Link>
-        <ul className="n-links">
-          <li><Link href="/">Home</Link></li>
-          <li><Link href="/#services">Services</Link></li>
-          <li><Link href="/#coverage">Coverage</Link></li>
-          <li><Link href="/news" className="on">Insights</Link></li>
-          <li><Link href="/#contact">Contact</Link></li>
-        </ul>
-        <div className="n-badge"><span className="n-dot" /> Sector Intelligence</div>
-      </nav>
+      <Navbar />
 
       <header className="ph">
         <div>
@@ -359,14 +350,7 @@ export default function NewsPage() {
         </aside>
       </div>
 
-      <footer className="news-footer">
-        <span className="ft-l">© 2026 Wavy Energy Company Limited · RC 8354129</span>
-        <div className="ft-links">
-          <Link href="/">Home</Link>
-          <Link href="/#services">Services</Link>
-          <Link href="/#contact">Contact</Link>
-        </div>
-      </footer>
+      <Footer />
 
       <div
         ref={aoRef}

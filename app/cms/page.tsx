@@ -15,6 +15,7 @@ export default function AdminDashboard() {
   const [content, setContent] = useState<Record<string, string>>({});
   const [team, setTeam] = useState<any[]>([]);
   const [services, setServices] = useState<any[]>([]);
+  const [newsArticles, setNewsArticles] = useState<any[]>([]);
 
   useEffect(() => {
     fetchData();
@@ -23,10 +24,11 @@ export default function AdminDashboard() {
   async function fetchData() {
     setLoading(true);
     try {
-      const [contentRes, teamRes, servicesRes] = await Promise.all([
+      const [contentRes, teamRes, servicesRes, newsRes] = await Promise.all([
         supabase.from("site_content").select("*"),
         supabase.from("team_members").select("*").order("display_order"),
         supabase.from("services").select("*").order("display_order"),
+        supabase.from("news_articles").select("*").order("date", { ascending: false }).order("display_order"),
       ]);
 
       if (contentRes.data) {
@@ -36,6 +38,7 @@ export default function AdminDashboard() {
       }
       if (teamRes.data) setTeam(teamRes.data);
       if (servicesRes.data) setServices(servicesRes.data);
+      if (newsRes.data) setNewsArticles(newsRes.data);
     } catch (err) {
       console.error(err);
     } finally {
@@ -83,6 +86,27 @@ export default function AdminDashboard() {
     await supabase.from("services").delete().eq("id", id);
   }
 
+  // --- Handlers for News Articles ---
+  const NEWS_CATEGORIES = ["petroleum", "gas", "solar", "regulatory", "market"];
+  async function addNewsArticle() {
+    const { data, error } = await supabase
+      .from("news_articles")
+      .insert([{ title: "New Article", excerpt: "", body: "", category: "petroleum", display_order: newsArticles.length + 1 }])
+      .select();
+    if (data?.[0]) setNewsArticles((prev) => [data[0], ...prev]);
+  }
+  async function updateNewsArticle(id: string, field: string, value: string | number | string[] | null) {
+    const next = newsArticles.map((a) => (a.id === id ? { ...a, [field]: value } : a));
+    setNewsArticles(next);
+    const payload = field === "tags" ? { tags: value } : { [field]: value };
+    await supabase.from("news_articles").update(payload).eq("id", id);
+  }
+  async function deleteNewsArticle(id: string) {
+    if (!confirm("Are you sure?")) return;
+    setNewsArticles((prev) => prev.filter((a) => a.id !== id));
+    await supabase.from("news_articles").delete().eq("id", id);
+  }
+
   const tabs = [
     {
       id: "hero",
@@ -108,6 +132,11 @@ export default function AdminDashboard() {
       id: "services",
       label: "Services",
       description: "Service lines, descriptions, and how they appear in the accordion.",
+    },
+    {
+      id: "news",
+      label: "News / Insights",
+      description: "Articles for the Insights page: title, excerpt, body, category, source, and image.",
     },
   ] as const;
 
@@ -470,6 +499,116 @@ export default function AdminDashboard() {
                     className="mt-1 text-sm font-medium text-red-600 hover:underline"
                   >
                     Delete Service
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* --- NEWS TAB --- */}
+        {activeTab === "news" && (
+          <div className="space-y-6 pb-16">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold text-slate-900">News / Insights Articles</h2>
+              <button
+                onClick={addNewsArticle}
+                className="rounded bg-green-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-900 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100"
+              >
+                + Add Article
+              </button>
+            </div>
+            <p className="text-xs text-slate-500">
+              Edits to articles are saved automatically. Articles appear on the Insights page (/news).
+            </p>
+            <div className="space-y-6">
+              {newsArticles.map((art) => (
+                <div
+                  key={art.id}
+                  className="space-y-4 rounded-lg border border-slate-200 bg-white p-6 shadow-sm transition hover:border-green-200 hover:shadow-md"
+                >
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <Input
+                      label="Title"
+                      value={art.title}
+                      onChange={(v) => updateNewsArticle(art.id, "title", v)}
+                    />
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-1">Category</label>
+                      <select
+                        value={art.category ?? "petroleum"}
+                        onChange={(e) => updateNewsArticle(art.id, "category", e.target.value)}
+                        className="w-full p-2 border rounded focus:ring-2 focus:ring-green-900 outline-none text-gray-600"
+                      >
+                        {NEWS_CATEGORIES.map((c) => (
+                          <option key={c} value={c}>{c.charAt(0).toUpperCase() + c.slice(1)}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <TextArea
+                    label="Excerpt (short summary)"
+                    value={art.excerpt}
+                    onChange={(v) => updateNewsArticle(art.id, "excerpt", v)}
+                  />
+                  <TextArea
+                    label="Body (full article text; use new lines for paragraphs)"
+                    value={art.body}
+                    onChange={(v) => updateNewsArticle(art.id, "body", v)}
+                  />
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <Input
+                      label="Source (e.g. BusinessDay)"
+                      value={art.source}
+                      onChange={(v) => updateNewsArticle(art.id, "source", v)}
+                    />
+                    <Input
+                      label="Source URL"
+                      value={art.source_url}
+                      onChange={(v) => updateNewsArticle(art.id, "source_url", v)}
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <Input
+                      label="Image URL"
+                      value={art.image}
+                      onChange={(v) => updateNewsArticle(art.id, "image", v)}
+                    />
+                    <Input
+                      label="Image credit"
+                      value={art.img_credit}
+                      onChange={(v) => updateNewsArticle(art.id, "img_credit", v)}
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <Input
+                      label="Date (YYYY-MM-DD)"
+                      value={art.date}
+                      onChange={(v) => updateNewsArticle(art.id, "date", v)}
+                    />
+                    <Input
+                      label="Tags (comma-separated)"
+                      value={Array.isArray(art.tags) ? art.tags.join(", ") : (art.tags ?? "")}
+                      onChange={(v) =>
+                        updateNewsArticle(
+                          art.id,
+                          "tags",
+                          v.split(",").map((t: string) => t.trim()).filter(Boolean)
+                        )
+                      }
+                    />
+                  </div>
+                  <Input
+                    label="Display order"
+                    value={art.display_order}
+                    type="number"
+                    onChange={(v) => updateNewsArticle(art.id, "display_order", v === "" ? 0 : Number(v))}
+                  />
+                  <button
+                    onClick={() => deleteNewsArticle(art.id)}
+                    className="text-sm font-medium text-red-600 hover:underline"
+                  >
+                    Delete Article
                   </button>
                 </div>
               ))}

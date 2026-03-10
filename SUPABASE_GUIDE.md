@@ -38,12 +38,30 @@ create table services (
   created_at timestamp with time zone default now()
 );
 
--- 4. Enable Security (RLS)
+-- 4. News / Insights articles (for /news page)
+create table news_articles (
+  id uuid default gen_random_uuid() primary key,
+  title text not null,
+  excerpt text,
+  body text,
+  category text not null check (category in ('petroleum','gas','solar','regulatory','market')),
+  source text,
+  source_url text,
+  image text,
+  img_credit text,
+  date text,
+  tags text[] default '{}',
+  display_order int default 0,
+  created_at timestamp with time zone default now()
+);
+
+-- 5. Enable Security (RLS)
 alter table site_content enable row level security;
 alter table team_members enable row level security;
 alter table services enable row level security;
+alter table news_articles enable row level security;
 
--- 5. Policies (Allow Public Read, Allow All for Admin)
+-- 6. Policies (Allow Public Read, Allow All for Admin)
 create policy "Public Read Content" on site_content for select using (true);
 create policy "Admin Write Content" on site_content for all using (true);
 
@@ -53,7 +71,10 @@ create policy "Admin Write Team" on team_members for all using (true);
 create policy "Public Read Services" on services for select using (true);
 create policy "Admin Write Services" on services for all using (true);
 
--- 6. Storage Bucket for Images
+create policy "Public Read News" on news_articles for select using (true);
+create policy "Admin Write News" on news_articles for all using (true);
+
+-- 7. Storage Bucket for Images
 insert into storage.buckets (id, name, public) values ('images', 'images', true);
 
 -- Storage Policies
@@ -61,6 +82,13 @@ create policy "Public Access Images" on storage.objects for select using ( bucke
 create policy "Admin Upload Images" on storage.objects for insert with check ( bucket_id = 'images' );
 create policy "Admin Update Images" on storage.objects for update using ( bucket_id = 'images' );
 create policy "Admin Delete Images" on storage.objects for delete using ( bucket_id = 'images' );
+```
+
+**News articles:** Add and edit articles in the CMS under the **News** tab. To seed one sample article, run:
+
+```sql
+insert into news_articles (title, excerpt, body, category, source, source_url, image, img_credit, date, tags, display_order) values
+('Dangote Refinery Begins Full Commercial Sales of PMS', 'The 650,000 bpd Dangote Petroleum Refinery has commenced full commercial distribution of Premium Motor Spirit to major fuel retailers across Lagos, Ogun, and Rivers States.', 'The Dangote Petroleum Refinery has officially transitioned from trial sales to full commercial distribution of Premium Motor Spirit (PMS)...', 'petroleum', 'BusinessDay', 'https://example.com', 'https://wsrv.nl/?url=https%3A%2F%2Fafricaoilgasreport.com%2Fwp-content%2Fuploads%2F2026%2F02%2FSP-Dangote-5.jpeg&w=900&output=jpg&q=80', 'Africa Oil Gas Report', '2026-03-08', ARRAY['Dangote','PMS','Downstream','Petroleum'], 1);
 ```
 
 ## 3. Seed Initial Data
